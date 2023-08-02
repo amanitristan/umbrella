@@ -1,9 +1,10 @@
 pp "Howdy"
 
 # STEP 1: Ask for user's location and store as user_location.
+# Because Google does not allow spaces and replaces them with "%20", we will have to add a .gsub to user_location.
 pp "Where are you located?"
 
-#user_location = gets.chomp
+#user_location = gets.chomp.gsub(" ", "%20")
 #pp user_location
 
 # We will temporarily set user_location to "Chicago" in order to work efficiently until program is complete. Once the program is complete, we will comment out this static input and use the dynamic user_location above.
@@ -37,19 +38,27 @@ parsed_response = JSON.parse(raw_response)
 
 # STEP 5: Dig through the hash one layer at a time to get the specific information needed - latitude and longitude.
 # Assuming you're working with a hash, try using the .keys method to identify the top-level keys you may have to dig through to get your information. --> pp parsed_response.keys
+# As you pull out elements to dig toward the information you need, try using to following methods:
+  # .class method (to determine the class type of each element)
+  # .length method (to determine how many elements are contained within the hash or array)
+  # .at()  (to pull out the exact element you want to dig into deeper)
 
 results = parsed_response.fetch("results")
-#pp parsed_response.fetch("results")
+#pp results
+#Try results.class or .keys (if it's a hash) or .length
 
-#pull out the single element contained within the results hash, whci
+#Pull out the single element contained within the results array, whcich is a hash. (You must parse out the element in order to work with it.)
+#Repeat these steps until you get the information you need.
 first_results = results.at(0)
+#pp first_results
 
 geo = first_results.fetch("geometry")
 
 loc = geo.fetch("location")
 
-latitude = loc.fetch("location")
-
+latitude = loc.fetch("lat")
+longitude = loc.fetch("lng")
+#done!
 
 
 =begin COPIED FROM CLASS LESSON IN CANVAS
