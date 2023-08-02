@@ -60,8 +60,17 @@ latitude = loc.fetch("lat")
 longitude = loc.fetch("lng")
 #done!
 
+# STEP 6: Take the latitude and longitude of the user's location.
 
-=begin COPIED FROM CLASS LESSON IN CANVAS
+# STEP 7: Assemble the correct URL for the Pirate Weather API.
+
+# STEP 8: GET it, parse it, and dig out the current temperature.
+
+
+
+
+=begin 
+COPIED FROM CLASS LESSON IN CANVAS
 
 # I've already created a string variable above: pirate_weather_api_key
 # It contains sensitive credentials that hackers would love to steal so it is hidden for security reasons.
