@@ -4,16 +4,16 @@ pp "Howdy"
 # Because Google does not allow spaces and replaces them with "%20", we will have to add a .gsub to user_location.
 pp "Where are you located?"
 
-#user_location = gets.chomp.gsub(" ", "%20")
+user_location = gets.chomp.gsub(" ", "%20")
 #pp user_location
 
 # We will temporarily set user_location to "Chicago" in order to work efficiently until program is complete. Once the program is complete, we will comment out this static input and use the dynamic user_location above.
-user_location = "Chicago"
+#user_location = "Chicago"
 
 
 # STEP 2: Turn the user_location into latitude and longitude using the Google Maps and GMAPS API.
 
-maps_url = " https://maps.googleapis.com/maps/api/geocode/json?address=" + user_location + "&key=" + ENV.fetch("GMAPS_KEY")
+maps_url = "https://maps.googleapis.com/maps/api/geocode/json?address="+user_location+"&key="+ENV.fetch("GMAPS_KEY")
 
 # To test if this variable works dynamically, pp maps_url and enter a location. The program should return the url with the user's location input.
 #pp maps_url
@@ -61,12 +61,33 @@ longitude = loc.fetch("lng")
 #done!
 
 # STEP 6: Take the latitude and longitude of the user's location.
+pp "Your coordinates are " + latitude.to_s + ", " + longitude.to_s
 
 # STEP 7: Assemble the correct URL for the Pirate Weather API.
+pirate_weather_url = "https://api.pirateweather.net/forecast/" + PIRATE_WEATHER_KEY + latitude.to_s + ",%20" + longitude.to_s
 
-# STEP 8: GET it, parse it, and dig out the current temperature.
 
+# STEP 8: GET it, parse it, and dig out the current temperature. (Aka repeat Steps 3-6.)
+require http
 
+response = HTTP.get(pirate_weather_url)
+raw_respo = response.to_s
+
+require json
+
+parsed_respo = JSON.parse(raw_respo)
+
+currently = parsed_respo.fetch("currently")
+
+temp = currently.fetch("temperature").to_s
+pp "The current temperature is #{temp}."
+
+hourly = parsed_respo.fetch("hourly")
+
+data = hourly.fetch("data")
+
+precip_prob = data.fetch("precipprobability").to_s
+pp "Next Hour: There is a #{precip_prob}% chance of rain."
 
 
 =begin 
